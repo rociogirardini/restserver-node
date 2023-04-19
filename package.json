@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "app"
+    "start": "npm app.js"
   },
   "keywords": [],
   "author": "",
