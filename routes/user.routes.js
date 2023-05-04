@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { check } from "express-validator";
-import fieldsValidation from "../middlewares/fields-validations.js";
+import { fieldsValidation, jwtValidation, isAdminRole, hasRole} from '../middlewares/index.js'
 import { roleIsValid, emailExist, userExist } from "../helpers/db-validators.js";
 
 import {
@@ -11,11 +11,11 @@ import {
   deleteUsers,
 } from "../controllers/user.controller.js";
 
-const router = Router();
+const user_router = Router();
 
-router.get("/", getUsers);
+user_router.get("/", getUsers);
 
-router.post(
+user_router.post(
   "/",
   [
     check("email", "El correo no es válido.").isEmail(),
@@ -26,19 +26,22 @@ router.post(
     fieldsValidation,
   ], postUsers);
 
-router.put("/:id",[
+user_router.put("/:id",[
   check('id', 'No es un ID válido').isMongoId(),
   check('id').custom(userExist),
   check("role").custom(roleIsValid),
   fieldsValidation,
 ],putUsers);
 
-router.patch("/", patchUsers);
+user_router.patch("/", patchUsers);
 
-router.delete("/:id",[
+user_router.delete("/:id",[
+  jwtValidation,
+  // isAdminRole,
+  hasRole('ADMIN_ROLE', 'SAILS_ROLE'),
   check('id', 'No es un ID válido').isMongoId(),
   check('id').custom(userExist),
   fieldsValidation
 ] ,deleteUsers);
 
-export default router;
+export default user_router;

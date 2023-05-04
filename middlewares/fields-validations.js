@@ -9,4 +9,4 @@ const fieldsValidation = (req, res, next) => {
   next();
 };
 
-export default fieldsValidation;
+export { fieldsValidation };
