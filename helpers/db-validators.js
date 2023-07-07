@@ -1,3 +1,4 @@
+import { Category, Product } from "../models/index.js";
 import Role from "../models/role.js";
 import User from "../models/user.js";
 
@@ -22,4 +23,18 @@ const userExist = async (id) => {
   }
 };
 
-export { roleIsValid, emailExist, userExist };
+const categoryExist = async (id) => {
+  const categoryExists = await Category.findById( id );
+  if (!categoryExists) {
+    throw new Error(`La categoría no existe.`);
+  }
+}
+
+const productExist = async (id) => {
+  const productExists = await Product.findById( id );
+  if ( !productExists ) {
+    throw new Error("El producto no existe.");
+  }
+}
+
+export { roleIsValid, emailExist, userExist, categoryExist, productExist };
