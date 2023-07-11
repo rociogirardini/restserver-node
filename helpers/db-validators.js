@@ -17,24 +17,41 @@ const emailExist = async (email = "") => {
 };
 
 const userExist = async (id) => {
-  const userExists = await User.findById( id );
+  const userExists = await User.findById(id);
   if (!userExists) {
     throw new Error(`El ID ${id} no existe.`);
   }
 };
 
 const categoryExist = async (id) => {
-  const categoryExists = await Category.findById( id );
+  const categoryExists = await Category.findById(id);
   if (!categoryExists) {
     throw new Error(`La categoría no existe.`);
   }
-}
+};
 
 const productExist = async (id) => {
-  const productExists = await Product.findById( id );
-  if ( !productExists ) {
+  const productExists = await Product.findById(id);
+  if (!productExists) {
     throw new Error("El producto no existe.");
   }
-}
+};
 
-export { roleIsValid, emailExist, userExist, categoryExist, productExist };
+const allowedCollections = async (collection = "", collections = []) => {
+  const include = collections.includes(collection);
+  if (!include) {
+    throw new Error(
+      `La colección ${collection} no está permitida. Colecciones permitidas: ${collections}`
+    );
+  }
+  return true;
+};
+
+export {
+  allowedCollections,
+  categoryExist,
+  emailExist,
+  productExist,
+  roleIsValid,
+  userExist,
+};
